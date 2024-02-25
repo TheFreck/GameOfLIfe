@@ -1,0 +1,1 @@
+C:\Users\chris.freckleton\source\repos\GameOfLife\gameoflife.client\obj\Debug\gameoflife.client.esproj.CoreCompileInputs.cache

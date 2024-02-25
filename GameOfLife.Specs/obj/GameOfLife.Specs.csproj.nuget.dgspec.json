@@ -1,0 +1,165 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\chris.freckleton\\source\\repos\\GameOfLife\\GameOfLife.Specs\\GameOfLife.Specs.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\chris.freckleton\\source\\repos\\GameOfLife\\GameOfLife.Server\\GameOfLife.Server.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\chris.freckleton\\source\\repos\\GameOfLife\\GameOfLife.Server\\GameOfLife.Server.csproj",
+        "projectName": "GameOfLife.Server",
+        "projectPath": "C:\\Users\\chris.freckleton\\source\\repos\\GameOfLife\\GameOfLife.Server\\GameOfLife.Server.csproj",
+        "packagesPath": "C:\\Users\\chris.freckleton\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\chris.freckleton\\source\\repos\\GameOfLife\\GameOfLife.Server\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\chris.freckleton\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.SpaProxy": {
+              "target": "Package",
+              "version": "[8.*-*, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.4.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\chris.freckleton\\source\\repos\\GameOfLife\\GameOfLife.Specs\\GameOfLife.Specs.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\chris.freckleton\\source\\repos\\GameOfLife\\GameOfLife.Specs\\GameOfLife.Specs.csproj",
+        "projectName": "GameOfLife.Specs",
+        "projectPath": "C:\\Users\\chris.freckleton\\source\\repos\\GameOfLife\\GameOfLife.Specs\\GameOfLife.Specs.csproj",
+        "packagesPath": "C:\\Users\\chris.freckleton\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\chris.freckleton\\source\\repos\\GameOfLife\\GameOfLife.Specs\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\chris.freckleton\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\chris.freckleton\\source\\repos\\GameOfLife\\GameOfLife.Server\\GameOfLife.Server.csproj": {
+                "projectPath": "C:\\Users\\chris.freckleton\\source\\repos\\GameOfLife\\GameOfLife.Server\\GameOfLife.Server.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "MSTest.TestAdapter": {
+              "target": "Package",
+              "version": "[3.0.4, )"
+            },
+            "MSTest.TestFramework": {
+              "target": "Package",
+              "version": "[3.0.4, )"
+            },
+            "Machine.Specifications": {
+              "target": "Package",
+              "version": "[1.1.1, )"
+            },
+            "Machine.Specifications.Runner.VisualStudio": {
+              "target": "Package",
+              "version": "[2.10.2, )"
+            },
+            "Machine.Specifications.Should": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[17.6.0, )"
+            },
+            "coverlet.collector": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

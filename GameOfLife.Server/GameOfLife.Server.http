@@ -1,0 +1,17 @@
+@GameOfLife.Server_HostAddress = https://localhost:7163
+
+GET {{GameOfLife.Server_HostAddress}}/life
+
+###
+
+GET {{GameOfLife.Server_HostAddress}}/getlife
+
+###
+
+POST {{GameOfLife.Server_HostAddress}}/generation
+Content-Type: application/json
+
+  [[true],[true],[true]]
+
+
+###
