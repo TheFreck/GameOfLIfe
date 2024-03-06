@@ -7,38 +7,90 @@ namespace GameOfLife.Specs
     {
         Establish context = () =>
         {
-            input = new bool[][]
+            inputs = new bool[][][]
             {
-                new bool[]{false,false,false },
-                new bool[]{true, true, true },
-                new bool[]{false,false,false }
+                new bool[][]
+                {
+                    new bool[]{false,false,false},
+                    new bool[]{true, true, true },
+                    new bool[]{false,false,false},
+                },
+                new bool[][]
+                {
+                    new []{false,false,false,false,false},
+                    new []{false,true,true,true,false},
+                    new []{false,true,false,true,false},
+                    new []{false,true,true,true,false},
+                    new []{false,false,false,false,false},
+                },
+                new bool[][]
+                {
+                    new []{true,false,false,false,false },
+                    new []{false,true,false,false,false },
+                    new []{false,false,true,false,false },
+                    new []{false,false,false,true,false },
+                    new []{false,false,false,false,true },
+
+                }
             };
-            expect = new bool[][]
-            {
-                new bool[]{ false,true,false},
-                new bool[]{ false,true,false},
-                new bool[]{ false,true,false}
+            expectations = new bool[][][]{
+                new bool[][]
+                {
+                    new bool[]{ false,true,false },
+                    new bool[]{ false,true,false },
+                    new bool[]{ false,true,false }
+                },
+                new bool[][]{
+                    new []{false,false,true,false,false },
+                    new []{false,true,false,true,false},
+                    new []{true,false,false,false,true},
+                    new []{false,true,false,true,false},
+                    new []{false,false,true,false,false },
+                },
+                new bool[][]
+                {
+                    new []{false,false,false,false,false},
+                    new []{false,true,false,false,false },
+                    new []{false,false,true,false,false },
+                    new []{false,false,false,true,false },
+                    new []{false,false,false,false,false },
+                }
             };
+            answers = new bool[expectations.Length][][];
         };
 
-        Because of = () => answer = Life.Proceed(input);
-
-        It Should_Return_Next_Generation = () =>
+        Because of = () =>
         {
-            for (var i = 0; i < answer.Length; i++)
+            for (var i = 0; i < inputs.Length; i++)
             {
-                for (var j = 0; j < answer[i].Length; j++)
-                {
-                    var theAnswer = answer[i][j];
-                    var theExpectation = expect[i][j];
-                    answer[i][j].ShouldEqual(expect[i][j]);
-                }
+                answers[i] = Life.Proceed(inputs[i]);
             }
         };
 
-        private static bool[][] input;
-        private static bool[][] expect;
-        private static bool[][] answer;
+        //It Should_Return_The_Correct_Jagged_Arrays = () => answers.ShouldEqual(expectations);
+
+        It Should_Return_Next_Generation = () =>
+        {
+            for (var i = 0; i < answers.Length; i++)
+            {
+                for (var j = 0; j < answers[i].Length; j++)
+                {
+                    for (var k = 0; k < answers[i][j].Length; k++)
+                    {
+                        if (answers[i][j][k] != expectations[i][j][k])
+                        {
+                            var theAnswer = answers[i][j][k];
+                            var theExpectation = expectations[i][j][k];
+                        }
+                        answers[i][j][k].ShouldEqual(expectations[i][j][k]);
+
+                    }
+                }
+            }
+        };
+        private static bool[][][] inputs;
+        private static bool[][][] expectations;
+        private static bool[][][] answers;
     }
 
     public class When_Counting_Neighbors
@@ -136,9 +188,9 @@ namespace GameOfLife.Specs
             expect = new bool[][]
             {
                 new bool[]{ false, false, false, false, false },
-                new bool[]{ false, true, true, true, false },
-                new bool[]{ false, true, true, true, false },
-                new bool[]{ false, true, true, true, false }
+                new bool[]{ false,  true,  true, true,  false },
+                new bool[]{ false,  true,  true, true,  false },
+                new bool[]{ false,  true,  true, true,  false },
             };
         };
 
@@ -270,7 +322,7 @@ namespace GameOfLife.Specs
             };
         };
 
-        Because of = () => answer = Life.DetermineLifeAndDeath(inputCount,inputLife);
+        Because of = () => answer = Life.DetermineLifeAndDeath(inputCount, inputLife);
 
         //It Should_Return_Next_Generation = () => answer.ShouldEqual(expect);
         It Should_Accurately_Determine_The_Next_Gen = () =>
@@ -289,4 +341,811 @@ namespace GameOfLife.Specs
         private static bool[][] expect;
         private static bool[][] answer;
     }
+
+    public class When_Progressing_Forward_Ten_Generations
+    {
+        Establish context = () =>
+        {
+            input = new bool[][]
+            {
+                new bool[]{ false, false, false},
+                new bool[]{true, true, true },
+                new bool[]{ false, false, false},
+            };
+            expect = new bool[][][]
+            {
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+            };
+        };
+
+        Because of = () => answer = Life.ProceedMany(input, 10);
+
+        //It Should_Return_All_Correct_Values = () => answer.ShouldEqual(expect);
+
+        It Should_Return_Ten_Generations_Of_Life = () =>
+        {
+            for (var i = 0; i < answer.Length; i++)
+            {
+                for (var j = 0; j < answer[i].Length; j++)
+                {
+                    for (var k = 0; k < answer[i][j].Length; k++)
+                    {
+                        if (answer[i][j][k] != expect[i][j][k])
+                        {
+                            var thisAnswer = answer[i][j][k];
+                            var theExpectation = expect[i][j][k];
+                        }
+                        answer[i][j][k].ShouldEqual(expect[i][j][k]);
+                    }
+                }
+            }
+        };
+
+        private static bool[][] input;
+        private static bool[][][] expect;
+        private static bool[][][] answer;
+    }
+
+    public class When_Progressing_Forward_OneHundred_Generations
+    {
+        Establish context = () =>
+        {
+            input = new bool[][]
+            {
+                new bool[]{ false, false, false},
+                new bool[]{true, true, true },
+                new bool[]{ false, false, false},
+            };
+            expect = new bool[][][]
+            {
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                },
+                new bool[][]
+                {
+                    new bool[]{ false, false, false},
+                    new bool[]{true, true, true },
+                    new bool[]{ false, false, false},
+                },
+                new bool[][]
+                {
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false},
+                    new bool[]{ false,true,false}
+                }
+            };
+        };
+
+        Because of = () => answer = Life.ProceedMany(input, 100);
+
+        //It Should_Return_All_Correct_Values = () => answer.ShouldEqual(expect);
+
+        It Should_Return_OneHundred_Generations_Of_Life = () =>
+        {
+            for (var i = 0; i < answer.Length; i++)
+            {
+                for (var j = 0; j < answer[i].Length; j++)
+                {
+                    for (var k = 0; k < answer[i][j].Length; k++)
+                    {
+                        if (answer[i][j][k] != expect[i][j][k])
+                        {
+                            var thisAnswer = answer[i][j][k];
+                            var theExpectation = expect[i][j][k];
+                        }
+                        answer[i][j][k].ShouldEqual(expect[i][j][k]);
+                    }
+                }
+            }
+        };
+
+        private static bool[][] input;
+        private static bool[][][] expect;
+        private static bool[][][] answer;
+    }
+
 }

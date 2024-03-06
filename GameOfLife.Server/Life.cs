@@ -1,4 +1,6 @@
 ﻿
+
+
 namespace GameOfLife.Server
 {
     public static class Life
@@ -49,16 +51,20 @@ namespace GameOfLife.Server
 
         public static bool[][] Proceed(bool[][] input)
         {
-            var paddedLife = PadLife(input);
-            var countedLife = CountNeighbors(paddedLife);
-            var life = DetermineLifeAndDeath(countedLife, paddedLife);
-            return UnPadLife(life);
+            if(input?.Length > 0)
+            {
+                var paddedLife = PadLife(input);
+                var countedLife = CountNeighbors(paddedLife);
+                var life = DetermineLifeAndDeath(countedLife, paddedLife);
+                return UnPadLife(life);
+            }
+            return input;
         }
 
         public static bool[][] UnPadLifeVertical(bool[][] input)
         {
             var output = new bool[input.Length - 2][];
-            for(var i=0; i<output.Length; i++)
+            for (var i = 0; i < output.Length; i++)
             {
                 output[i] = input[i + 1];
             }
@@ -81,7 +87,7 @@ namespace GameOfLife.Server
 
         public static bool[][] UnPadLife(bool[][] input)
         {
-            return FlipLife(UnPadLifeVertical(FlipLife(UnPadLifeVertical(input))));
+            return input.Length > 0 ? FlipLife(UnPadLifeVertical(FlipLife(UnPadLifeVertical(input)))) : input;
         }
 
         public static bool[][] DetermineLifeAndDeath(int[][] inputCount, bool[][] inputLife)
@@ -92,8 +98,6 @@ namespace GameOfLife.Server
                 output[i] = new bool[inputLife[0].Length];
                 for(var j=0; j < inputCount[i].Length; j++)
                 {
-                    var count = inputCount[i][j];
-                    var life = inputLife[i][j];
                     if (inputLife[i][j] && (inputCount[i][j] == 2 || inputCount[i][j] == 3))
                     {
                         output[i][j] = true;
@@ -109,6 +113,17 @@ namespace GameOfLife.Server
                 }
             }
             return output;
+        }
+
+        public static bool[][][] ProceedMany(bool[][] input, int count)
+        {
+            var generations = new bool[count][][];
+            generations[0] = input;
+            for(var i=1; i < count; i++)
+            {
+                generations[i] = Proceed(generations[i - 1]);
+            }
+            return generations.Where(m => m != generations[0]).ToArray();
         }
     }
 }

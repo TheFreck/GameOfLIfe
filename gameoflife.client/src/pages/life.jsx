@@ -1,76 +1,49 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useAxios } from '../assets/api';
+import React, { useCallback, useEffect, useState, useContext } from 'react';
 import Cell from '../components/cell';
+import LifeContext from '../components/lifeContext';
 
-export const LifeGrid = () => {
-    const api = useAxios("https://localhost:7163");
+export const LifeGrid = ({ updateCell, instance,life }) => {
+    const [gridInstance, setGridInstance] = useState(Math.floor(Math.random() * 100));
+    const context = useContext(LifeContext);
 
-    const [life,setLife] = useState([]);
-    
     useEffect(() => {
-        let newLife = [];
-        for(let i=0; i<102; i++){
-            newLife[i] = [];
-            for(let j=0; j<102; j++){
-                newLife[i].push(false);
-            }
-        }
-        setLife(newLife);
-    },[]);
+        if (!instance || !life || !gridInstance) return;
+        console.log("life grid life: ", life);
+        setGridInstance(Math.floor(Math.random() * 100));
+    }, []);
 
-    const updateState = (cell) => {
-        life[cell.row][cell.col] = !life[cell.row][cell.col];
-    }
+    useEffect(() => {
+        console.log("checking life grid instance: ", gridInstance);
+        if (!gridInstance || !life || !instance) return;
+        console.log("life grid instance: ", gridInstance);
+    }, [gridInstance]);
 
-    const callApi = () => {
-        api.getWithUrl("/getLife",yup => console.log("yup: ", yup), nope => console.log("nope: ", nope));
-
-    }
-
-    const nextGen = () => {
-        api.post("/generation",life, yup => {
-            setLife(yup);
-        },
-        nope => {
-            console.error("nope ", nope);
-        })
-    }
-    
-    const GridCallback = useCallback(() => (<>
-        <button
-            type='button'
-            onClick={nextGen}
-        >
-            next generation   
-        </button>
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="1010"
-            height="1010"
-            viewBox="0 0 100 100"
-        >
+    const LifeGridCallback = useCallback(() => {
+        if (!gridInstance || !life || !instance) return <div>...Loading the grid</div>;
+        console.log("lifegridCallback life: ", life);
+        return <>
             {
-                life.map((row,i) => (
-                    (i>0 && i<=life.length-2) &&
-                    row.map((cell,j) => (
-                        (j>0 && j<=row.length-2) && 
-                        <Cell 
-                            key={`cell-[${i}][${j}]`} 
-                            state={cell} 
-                            row={i} 
-                            col={j} 
-                            isSvg={true} 
-                            size={1} 
-                            toggleLife={updateState}
+                instance && gridInstance && life && life.length > 0 &&
+                life.map((row, i) => (
+                    (i > 0 && i <= life.length - 2) &&
+                    row.map((cell, j) => (
+                        (j > 0 && j <= row.length - 2) &&
+                        <Cell
+                            key={`cell-[${i}][${j}]`}
+                            state={cell}
+                            row={i}
+                            col={j}
+                            isSvg={true}
+                            size={5}
+                            updateCell={updateCell}
                         />
                     ))
                 ))
             }
-        </svg>
-        </>),
-        [life]);
+        </>
+    }, [life, instance, gridInstance]);
 
-    return <GridCallback />;
+    return <LifeGridCallback />;
 }
 
 export default LifeGrid;

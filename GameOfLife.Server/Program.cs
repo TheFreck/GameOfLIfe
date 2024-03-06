@@ -5,10 +5,10 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        policy.AllowAnyOrigin();
-        policy.AllowAnyMethod();
-        policy.AllowAnyHeader();
-        //policy.WithOrigins("https://localhost:5173");
+        policy.AllowAnyOrigin()
+        //policy.WithOrigins("https://localhost:5173")
+        .AllowAnyMethod()
+        .AllowAnyHeader();
     });
 });
 builder.Services.AddControllers();

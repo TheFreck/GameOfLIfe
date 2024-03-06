@@ -1,13 +1,13 @@
 import axios from 'axios';
 
 export const useAxios = (url) => {
-    const get = async (yeah, nah) => {
+    const get = async (path,yeah, nah) => {
         try {
-            const response = await axios.get(url);
+            const response = await axios.get(`${url}${path}`);
             if (yeah) yeah(response.data);
             return response.data;
         } catch (nope) {
-            if (nope) nah(nope);
+            if (nah) nah(nope);
             else throw nope;
         }
     };

@@ -13,9 +13,15 @@ namespace GameOfLife.Server.Controllers
         public IActionResult GetLife() => Ok("You got life");
 
         [HttpPost("/generation")]
-        public IActionResult Generation(bool[][] life)
+        public IActionResult Generation([FromBody]bool[][] life)
         {
             return Ok(Life.Proceed(life));
+        }
+
+        [HttpPost("/{num}/generations")]
+        public IActionResult Generations([FromBody]bool[][] life, int num)
+        {
+            return Ok(Life.ProceedMany(life, num));
         }
     }
 }
