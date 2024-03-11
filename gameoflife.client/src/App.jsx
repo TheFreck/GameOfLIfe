@@ -5,18 +5,37 @@ import LifeContext from './components/lifeContext';
 
 function App() {
     const [isRunning, setIsRunning] = useState(false);
-    const [width, setWidth] = useState(3);
+    const [width, setWidth] = useState(5);
     const [height, setHeight] = useState(3);
     const [edgeBuffer, setEdgeBuffer] = useState(1);
-    const [intervalId, setIntervalId] = useState(0);
     const [readyToGo, setReadyToGo] = useState(false);
     const [instance, setInstance] = useState(0);
-    const [blankMap, setBlankMap] = useState([]);
+    const [blankMap, setBlankMap] = useState([[]]);
     const militicks = 1000;
 
 
     useEffect(() => {
-        setInstance(Math.floor(Math.random() * 100));
+        if(instance) return;
+        initialize(Math.floor(Math.random()*100));
+    }, []);
+
+    useEffect(() => {
+        if (!instance) return;
+    }, [instance]);
+
+    useEffect(() => {
+        if(!blankMap[0].length) return;
+    },[blankMap]);
+
+    useEffect(() => {
+        if(!instance || !blankMap[0].length) return;
+    },[readyToGo]);
+
+    const setMap = map => {
+        blankMap.push(map);
+    }
+
+    const initialize = (init) => {
         let newLife = [];
         for (let i = 0; i < height + 2 * edgeBuffer; i++) {
             newLife[i] = [];
@@ -25,44 +44,36 @@ function App() {
             }
         }
         setBlankMap([newLife]);
+        setInstance(init);
         setReadyToGo(true);
-    }, []);
+    }
 
-    useEffect(() => {
-        if (!instance) return;
-        console.log("app instance state update: ", instance);
-    }, [instance]);
-
-    const startStop = () => {
-        console.log("start/stop pressed");
+    const startStop = (lfe) => {
         if (!instance || !readyToGo || !blankMap[0].length) return;
-        console.log("start/stop");
+        console.log("start/stop: ", lfe);
         setIsRunning(!isRunning);
     }
 
+    const updateCell = (cell) => {
+        if(!readyToGo || isRunning) return;
+        blankMap[0][cell.row][cell.col] = !blankMap[0][cell.row][cell.col];
+        console.log(blankMap);
+    };
+
     const LoopCallback = useCallback(() => {
-        console.log("loopcallback instance: ", instance);
-        console.log("loopcallback readyToGo: ", readyToGo);
-        console.log("loopcallback blankMap: ", blankMap);
-        console.log("loopcallback blankMap length: ", blankMap.length);
-        if (!instance || !readyToGo || !blankMap[0].length) return;
-        console.log(`loopcallback instance: ${instance}; readyToGo: ${readyToGo}; blankMap: ${blankMap}`);
-        return <Loop instance={instance} map={blankMap} />;
-    }, [readyToGo, isRunning,blankMap,instance]);
+        if (!readyToGo || !blankMap[0].length || !instance) return;
+        return <Loop isRunning={isRunning} map={blankMap[0]} instance={instance} updateCell={updateCell} startStop={startStop} setMap={setMap} />;
+    }, [readyToGo,isRunning,blankMap,instance]);
 
     return (
             <LifeContext.Provider
                 value={{
                     isRunning,
+                    instance,
+                    setInstance,
                     militicks,
                 }}
             >
-                <button
-                    type='button'
-                    onClick={startStop}
-                >
-                    next generation
-                </button>
             <h1 id="tabelLabel">Game of Life</h1>
                 <LoopCallback />
             </LifeContext.Provider>

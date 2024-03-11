@@ -3,24 +3,15 @@ import Cell from '../components/cell';
 import LifeContext from '../components/lifeContext';
 
 export const LifeGrid = ({ updateCell, instance,life }) => {
-    const [gridInstance, setGridInstance] = useState(Math.floor(Math.random() * 100));
-    const context = useContext(LifeContext);
+    const [gridInstance, setGridInstance] = useState(0);
 
     useEffect(() => {
-        if (!instance || !life || !gridInstance) return;
-        console.log("life grid life: ", life);
-        setGridInstance(Math.floor(Math.random() * 100));
+        if (!instance || !life || gridInstance) return;
+        setGridInstance(instance);
     }, []);
 
-    useEffect(() => {
-        console.log("checking life grid instance: ", gridInstance);
-        if (!gridInstance || !life || !instance) return;
-        console.log("life grid instance: ", gridInstance);
-    }, [gridInstance]);
-
     const LifeGridCallback = useCallback(() => {
-        if (!gridInstance || !life || !instance) return <div>...Loading the grid</div>;
-        console.log("lifegridCallback life: ", life);
+        if (!gridInstance || !life) return <div>...Loading the grid</div>;
         return <>
             {
                 instance && gridInstance && life && life.length > 0 &&
@@ -36,12 +27,13 @@ export const LifeGrid = ({ updateCell, instance,life }) => {
                             isSvg={true}
                             size={5}
                             updateCell={updateCell}
+                            instance={gridInstance}
                         />
                     ))
                 ))
             }
         </>
-    }, [life, instance, gridInstance]);
+    }, [life, gridInstance]);
 
     return <LifeGridCallback />;
 }

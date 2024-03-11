@@ -117,9 +117,9 @@ namespace GameOfLife.Server
 
         public static bool[][][] ProceedMany(bool[][] input, int count)
         {
-            var generations = new bool[count][][];
+            var generations = new bool[count+1][][];
             generations[0] = input;
-            for(var i=1; i < count; i++)
+            for(var i=1; i <= count; i++)
             {
                 generations[i] = Proceed(generations[i - 1]);
             }
