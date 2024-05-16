@@ -12,17 +12,6 @@ export const useAxios = (url) => {
         }
     };
 
-    const getWithUrl = async (path, yeah, nah) => {
-        try {
-            const response = await axios.get(`${url}${path}`);
-            if (yeah) yeah(response.data);
-            return response.data;
-        } catch (nope) {
-            if (nah) nah(nope);
-            else throw nope;
-        }
-    };
-
     const post = async (path, data, yeah, nah) => {
         try {
             const response = await axios.post(`${url}${path}`, data, {
@@ -39,7 +28,6 @@ export const useAxios = (url) => {
 
     return {
         get,
-        getWithUrl,
         post,
     };
 };

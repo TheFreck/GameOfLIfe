@@ -6,7 +6,8 @@ export const LifeGrid = ({ updateCell, instance,life }) => {
     const [gridInstance, setGridInstance] = useState(0);
 
     useEffect(() => {
-        if (!instance || !life || gridInstance) return;
+        console.log("life grid: ", life);
+        if (!instance || !life.length || gridInstance) return;
         setGridInstance(instance);
     }, []);
 

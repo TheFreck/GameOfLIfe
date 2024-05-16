@@ -2,15 +2,16 @@ import React, { Suspense, useCallback, useEffect, useState } from 'react';
 import './App.css';
 import Loop from './components/loop';
 import LifeContext from './components/lifeContext';
+import LoopHousing from './components/loopHousing';
 
 function App() {
     const [isRunning, setIsRunning] = useState(false);
-    const [width, setWidth] = useState(5);
-    const [height, setHeight] = useState(3);
+    const [width, setWidth] = useState(20);
+    const [height, setHeight] = useState(20);
     const [edgeBuffer, setEdgeBuffer] = useState(1);
     const [readyToGo, setReadyToGo] = useState(false);
     const [instance, setInstance] = useState(0);
-    const [blankMap, setBlankMap] = useState([[]]);
+    const [mapArray, setMapArray] = useState([[]]);
     const militicks = 1000;
 
 
@@ -19,20 +20,25 @@ function App() {
         initialize(Math.floor(Math.random()*100));
     }, []);
 
-    useEffect(() => {
-        if (!instance) return;
-    }, [instance]);
+    //useEffect(() => {
+    //    if (!instance) return;
+    //}, [instance]);
+
+    //useEffect(() => {
+    //    if(!blankMap[0].length) return;
+    //},[blankMap]);
 
     useEffect(() => {
-        if(!blankMap[0].length) return;
-    },[blankMap]);
-
-    useEffect(() => {
-        if(!instance || !blankMap[0].length) return;
+        if(!instance || !mapArray[0].length) return;
     },[readyToGo]);
 
-    const setMap = map => {
-        blankMap.push(map);
+    useEffect(() => {
+        console.log("isRunning changed: ", isRunning);
+    },[isRunning]);
+
+    const setMap = newMap => {
+        mapArray.push(newMap);
+        setMapArray(mapArray);
     }
 
     const initialize = (init) => {
@@ -43,27 +49,22 @@ function App() {
                 newLife[i].push(false);
             }
         }
-        setBlankMap([newLife]);
+        setMapArray([newLife]);
         setInstance(init);
         setReadyToGo(true);
     }
 
-    const startStop = (lfe) => {
-        if (!instance || !readyToGo || !blankMap[0].length) return;
-        console.log("start/stop: ", lfe);
+    const startStop = () => {
+        if (!instance || !readyToGo) return;
+        console.log("start/stop");
         setIsRunning(!isRunning);
     }
 
-    const updateCell = (cell) => {
-        if(!readyToGo || isRunning) return;
-        blankMap[0][cell.row][cell.col] = !blankMap[0][cell.row][cell.col];
-        console.log(blankMap);
-    };
-
     const LoopCallback = useCallback(() => {
-        if (!readyToGo || !blankMap[0].length || !instance) return;
-        return <Loop isRunning={isRunning} map={blankMap[0]} instance={instance} updateCell={updateCell} startStop={startStop} setMap={setMap} />;
-    }, [readyToGo,isRunning,blankMap,instance]);
+        if (!readyToGo || !instance) return;
+        console.log("app isRunning: ", isRunning);
+        return <LoopHousing isRunning={isRunning} instance={instance} startStop={startStop} />;
+    }, [readyToGo,isRunning]);
 
     return (
             <LifeContext.Provider
